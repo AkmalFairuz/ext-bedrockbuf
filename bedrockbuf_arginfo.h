@@ -1,5 +1,5 @@
 #define DEFINE_READ_INT_FUNC(name) \
-    ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 1, IS_LONG, 1) \
+    ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 1, IS_LONG, 0) \
         ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0) \
     ZEND_END_ARG_INFO() \
     ZEND_FUNCTION(name);
@@ -45,7 +45,7 @@ DEFINE_WRITE_FLOAT_FUNC(bedrockbuf_writeDouble)
 DEFINE_WRITE_FLOAT_FUNC(bedrockbuf_writeLDouble)
 
 #define DEFINE_READ_FLOAT_FUNC(name) \
-	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 1, IS_DOUBLE, 1) \
+	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 1, IS_DOUBLE, 0) \
 		ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0) \
 	ZEND_END_ARG_INFO() \
 	ZEND_FUNCTION(name);
@@ -56,15 +56,15 @@ DEFINE_READ_FLOAT_FUNC(bedrockbuf_readDouble)
 DEFINE_READ_FLOAT_FUNC(bedrockbuf_readLDouble)
 
 #define DEFINE_READ_VAR_INT_FUNC(name) \
-	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 3, IS_LONG, 1) \
+	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 3, IS_LONG, 0) \
 		ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0) \
-		ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0) \
+		ZEND_ARG_TYPE_INFO(1, offset, IS_LONG, 0) \
 		ZEND_ARG_TYPE_INFO(0, is_signed, _IS_BOOL, 0) \
 	ZEND_END_ARG_INFO() \
 	ZEND_FUNCTION(name);
 
 #define DEFINE_WRITE_VAR_INT_FUNC(name) \
-	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 2, IS_STRING, 1) \
+	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 2, IS_STRING, 0) \
 		ZEND_ARG_TYPE_INFO(0, value, IS_LONG, 0) \
 		ZEND_ARG_TYPE_INFO(0, is_signed, _IS_BOOL, 0) \
 	ZEND_END_ARG_INFO() \
@@ -98,5 +98,16 @@ static const zend_function_entry ext_functions[] = {
 	ZEND_FE(bedrockbuf_readVarLong, arginfo_bedrockbuf_readVarLong)
 	ZEND_FE(bedrockbuf_writeVarInt, arginfo_bedrockbuf_writeVarInt)
 	ZEND_FE(bedrockbuf_writeVarLong, arginfo_bedrockbuf_writeVarLong)
+	ZEND_FE(bedrockbuf_readLLong, arginfo_bedrockbuf_readLLong)
+    ZEND_FE(bedrockbuf_writeLLong, arginfo_bedrockbuf_writeLLong)
+    ZEND_FE(bedrockbuf_readLTriad, arginfo_bedrockbuf_readLTriad)
+    ZEND_FE(bedrockbuf_writeLTriad, arginfo_bedrockbuf_writeLTriad)
+    ZEND_FE(bedrockbuf_readLShort, arginfo_bedrockbuf_readLShort)
+    ZEND_FE(bedrockbuf_writeLShort, arginfo_bedrockbuf_writeLShort)
+    ZEND_FE(bedrockbuf_readUnsignedShort, arginfo_bedrockbuf_readUnsignedShort)
+    ZEND_FE(bedrockbuf_readUnsignedByte, arginfo_bedrockbuf_readUnsignedByte)
+    ZEND_FE(bedrockbuf_readLUnsignedShort, arginfo_bedrockbuf_readLUnsignedShort)
+    ZEND_FE(bedrockbuf_readLInt, arginfo_bedrockbuf_readLInt)
+    ZEND_FE(bedrockbuf_writeLInt, arginfo_bedrockbuf_writeLInt)
 	ZEND_FE_END
 };
