@@ -227,19 +227,19 @@ BEDROCKBUF_WRITE_FLOAT(LFloat, 4, 1)
 BEDROCKBUF_WRITE_FLOAT(Double, 8, 0)
 BEDROCKBUF_WRITE_FLOAT(LDouble, 8, 1)
 
-uint32_t VarIntDecodeZigZag32(uint32_t n) {
+int32_t VarIntDecodeZigZag32(uint32_t n) {
 	return (n >> 1) ^ -(n & 1);
 }
 
-uint64_t VarIntDecodeZigZag64(uint64_t n) {
+int64_t VarIntDecodeZigZag64(uint64_t n) {
 	return (n >> 1) ^ -(n & 1);
 }
 
-uint32_t VarIntEncodeZigZag32(uint32_t n) {
+uint32_t VarIntEncodeZigZag32(int32_t n) {
 	return (n << 1) ^ (n >> 31);
 }
 
-uint64_t VarIntEncodeZigZag64(uint64_t n) {
+uint64_t VarIntEncodeZigZag64(int64_t n) {
 	return (n << 1) ^ (n >> 63);
 }
 
@@ -270,7 +270,7 @@ PHP_FUNCTION(bedrockbuf_readVarInt) {
         if((b & 0x80) == 0){
        		ZEND_TRY_ASSIGN_REF_LONG(offsetz, (zend_long)offset);
         	if(is_signed){
-                RETURN_LONG(VarIntDecodeZigZag32(value))
+                RETURN_LONG(VarIntDecodeZigZag32(value));
 			}
             RETURN_LONG(value);
         }
@@ -307,7 +307,7 @@ PHP_FUNCTION(bedrockbuf_readVarLong) {
         if((b & 0x80) == 0){
         	ZEND_TRY_ASSIGN_REF_LONG(offsetz, (zend_long)offset);
         	if(is_signed){
-        		RETURN_LONG(VarIntDecodeZigZag64(value))
+        		RETURN_LONG(VarIntDecodeZigZag64(value));
         	}
             RETURN_LONG(value);
         }
