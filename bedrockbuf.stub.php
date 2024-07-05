@@ -49,13 +49,13 @@ function bedrockbuf_writeDouble(float $value): string {}
 
 function bedrockbuf_writeLDouble(float $value): string {}
 
-function bedrockbuf_readFloat(string $data): float {}
+function bedrockbuf_readFloat(string $data): ?float {}
 
-function bedrockbuf_readLFloat(string $data): float {}
+function bedrockbuf_readLFloat(string $data): ?float {}
 
-function bedrockbuf_readDouble(string $data): float {}
+function bedrockbuf_readDouble(string $data): ?float {}
 
-function bedrockbuf_readLDouble(string $data): float {}
+function bedrockbuf_readLDouble(string $data): ?float {}
 
 function bedrockbuf_readVarInt(string $data, int &$offset, bool $is_signed): ?int {}
 
