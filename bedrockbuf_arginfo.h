@@ -75,6 +75,26 @@ DEFINE_READ_VAR_INT_FUNC(bedrockbuf_readVarLong)
 DEFINE_WRITE_VAR_INT_FUNC(bedrockbuf_writeVarInt)
 DEFINE_WRITE_VAR_INT_FUNC(bedrockbuf_writeVarLong)
 
+#define DEFINE_WRITE_VECTOR3_FUNC(name, type) \
+	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 3, IS_STRING, 0) \
+		ZEND_ARG_TYPE_INFO(0, x, type, 0) \
+		ZEND_ARG_TYPE_INFO(0, y, type, 0) \
+		ZEND_ARG_TYPE_INFO(0, z, type, 0) \
+	ZEND_END_ARG_INFO() \
+	ZEND_FUNCTION(name);
+
+DEFINE_WRITE_VECTOR3_FUNC(bedrockbuf_writeVector3IntLE, IS_LONG)
+DEFINE_WRITE_VECTOR3_FUNC(bedrockbuf_writeVector3FloatLE, IS_DOUBLE)
+
+#define DEFINE_READ_VECTOR3_FUNC(name, type) \
+	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_##name, 0, 1, IS_ARRAY, 0) \
+		ZEND_ARG_TYPE_INFO(0, data, IS_STRING, 0) \
+	ZEND_END_ARG_INFO() \
+	ZEND_FUNCTION(name);
+
+DEFINE_READ_VECTOR3_FUNC(bedrockbuf_readVector3IntLE, IS_STRING)
+DEFINE_READ_VECTOR3_FUNC(bedrockbuf_readVector3FloatLE, IS_STRING)
+
 static const zend_function_entry ext_functions[] = {
 	ZEND_FE(bedrockbuf_readInt, arginfo_bedrockbuf_readInt)
 	ZEND_FE(bedrockbuf_readLong, arginfo_bedrockbuf_readLong)
@@ -109,5 +129,9 @@ static const zend_function_entry ext_functions[] = {
     ZEND_FE(bedrockbuf_readLUnsignedShort, arginfo_bedrockbuf_readLUnsignedShort)
     ZEND_FE(bedrockbuf_readLInt, arginfo_bedrockbuf_readLInt)
     ZEND_FE(bedrockbuf_writeLInt, arginfo_bedrockbuf_writeLInt)
+	ZEND_FE(bedrockbuf_readVector3IntLE, arginfo_bedrockbuf_readVector3IntLE)
+	ZEND_FE(bedrockbuf_writeVector3IntLE, arginfo_bedrockbuf_writeVector3IntLE)
+	ZEND_FE(bedrockbuf_readVector3FloatLE, arginfo_bedrockbuf_readVector3FloatLE)
+	ZEND_FE(bedrockbuf_writeVector3FloatLE, arginfo_bedrockbuf_writeVector3FloatLE)
 	ZEND_FE_END
 };

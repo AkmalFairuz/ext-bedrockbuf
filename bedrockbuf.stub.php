@@ -64,3 +64,11 @@ function bedrockbuf_readVarLong(string $data, int &$offset, bool $is_signed): ?i
 function bedrockbuf_writeVarInt(int $value, bool $is_signed): string {}
 
 function bedrockbuf_writeVarLong(int $value, bool $is_signed): string {}
+
+function bedrockbuf_readVector3IntLE(string $data): ?array {}
+
+function bedrockbuf_writeVector3IntLE(int $x, int $y, int $z): string {}
+
+function bedrockbuf_readVector3FloatLE(string $data): ?array {}
+
+function bedrockbuf_writeVector3FloatLE(int $x, int $y, int $z): string {}

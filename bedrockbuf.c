@@ -371,6 +371,93 @@ PHP_FUNCTION(bedrockbuf_writeVarLong) {
 	}
 }
 
+PHP_FUNCTION(bedrockbuf_writeVector3IntLE) {
+    zend_long x, y, z;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 3, 3)
+        Z_PARAM_LONG(x)
+        Z_PARAM_LONG(y)
+        Z_PARAM_LONG(z)
+    ZEND_PARSE_PARAMETERS_END();
+
+    unsigned char a[12];
+    a[0] = x & 0xFF;
+    a[1] = (x >> 8) & 0xFF;
+    a[2] = (x >> 16) & 0xFF;
+    a[3] = (x >> 24) & 0xFF;
+    a[4] = y & 0xFF;
+    a[5] = (y >> 8) & 0xFF;
+    a[6] = (y >> 16) & 0xFF;
+    a[7] = (y >> 24) & 0xFF;
+    a[8] = z & 0xFF;
+    a[9] = (z >> 8) & 0xFF;
+    a[10] = (z >> 16) & 0xFF;
+    a[11] = (z >> 24) & 0xFF;
+
+    RETURN_STRINGL(a, 12);
+}
+
+PHP_FUNCTION(bedrockbuf_writeVector3FloatLE) {
+    double x, y, z;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 3, 3)
+        Z_PARAM_DOUBLE(x)
+        Z_PARAM_DOUBLE(y)
+        Z_PARAM_DOUBLE(z)
+    ZEND_PARSE_PARAMETERS_END();
+
+    unsigned char a[12];
+    bedrockbuf_float_to_char((float)x, a, 1);
+    bedrockbuf_float_to_char((float)y, a + 4, 1);
+    bedrockbuf_float_to_char((float)z, a + 8, 1);
+
+    RETURN_STRINGL(a, 12);
+}
+
+PHP_FUNCTION(bedrockbuf_readVector3IntLE) {
+    zend_string *zdata;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_STR(zdata)
+    ZEND_PARSE_PARAMETERS_END();
+
+    CHECK_DATA_LENGTH(zdata, 12);
+
+    unsigned char *a = (unsigned char *)ZSTR_VAL(zdata);
+    int32_t x = (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0];
+    int32_t y = (a[7] << 24) | (a[6] << 16) | (a[5] << 8) | a[4];
+    int32_t z = (a[11] << 24) | (a[10] << 16) | (a[9] << 8) | a[8];
+
+    array_init(return_value);
+    add_next_index_long(return_value, x);
+    add_next_index_long(return_value, y);
+    add_next_index_long(return_value, z);
+
+    RETURN_ARR(Z_ARRVAL_P(return_value));
+}
+
+PHP_FUNCTION(bedrockbuf_readVector3FloatLE) {
+    zend_string *zdata;
+
+    ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 1, 1)
+        Z_PARAM_STR(zdata)
+    ZEND_PARSE_PARAMETERS_END();
+
+    CHECK_DATA_LENGTH(zdata, 12);
+
+    unsigned char *a = (unsigned char *)ZSTR_VAL(zdata);
+    float x = bedrockbuf_char_to_float(a, 1);
+    float y = bedrockbuf_char_to_float(a + 4, 1);
+    float z = bedrockbuf_char_to_float(a + 8, 1);
+
+    array_init(return_value);
+    add_next_index_double(return_value, x);
+    add_next_index_double(return_value, y);
+    add_next_index_double(return_value, z);
+
+    RETURN_ARR(Z_ARRVAL_P(return_value));
+}
+
 PHP_MINFO_FUNCTION(bedrockbuf)
 {
 	php_info_print_table_start();
