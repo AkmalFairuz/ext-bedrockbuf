@@ -39,7 +39,7 @@
 BEDROCKBUF_READ_INT(Int, 4, (a[0] << 24) | (a[1] << 16) | (a[2] << 8) | a[3], int32_t)
 BEDROCKBUF_READ_INT(Long, 8, ((uint64_t)a[0] << 56) | ((uint64_t)a[1] << 48) | ((uint64_t)a[2] << 40) | ((uint64_t)a[3] << 32) | ((uint64_t)a[4] << 24) | ((uint64_t)a[5] << 16) | ((uint64_t)a[6] << 8) | a[7], int64_t)
 BEDROCKBUF_READ_INT(Triad, 3, (a[0] << 16) | (a[1] << 8) | a[2], int32_t)
-BEDROCKBUF_READ_INT(Short, 2, (a[0] << 8) | a[1], int16_t)
+BEDROCKBUF_READ_INT(Short, 2, (( (a[0] << 8) | a[1]) << 48 >> 48), int64_t)
 BEDROCKBUF_READ_INT(UnsignedShort, 2, (a[0] << 8) | a[1], uint16_t)
 BEDROCKBUF_READ_INT(Byte, 1, a[0], int8_t)
 BEDROCKBUF_READ_INT(UnsignedByte, 1, a[0], uint8_t)
@@ -47,7 +47,7 @@ BEDROCKBUF_READ_INT(UnsignedByte, 1, a[0], uint8_t)
 BEDROCKBUF_READ_INT(LInt, 4, (a[3] << 24) | (a[2] << 16) | (a[1] << 8) | a[0], int32_t)
 BEDROCKBUF_READ_INT(LLong, 8, ((uint64_t)a[7] << 56) | ((uint64_t)a[6] << 48) | ((uint64_t)a[5] << 40) | ((uint64_t)a[4] << 32) | ((uint64_t)a[3] << 24) | ((uint64_t)a[2] << 16) | ((uint64_t)a[1] << 8) | a[0], int64_t)
 BEDROCKBUF_READ_INT(LTriad, 3, (a[2] << 16) | (a[1] << 8) | a[0], int32_t)
-BEDROCKBUF_READ_INT(LShort, 2, (a[1] << 8) | a[0], int32_t)
+BEDROCKBUF_READ_INT(LShort, 2, (( (a[1] << 8) | a[0]) << 48 >> 48), int64_t)
 BEDROCKBUF_READ_INT(LUnsignedShort, 2, (a[1] << 8) | a[0], uint16_t)
 
 #define BEDROCKBUF_WRITE_INT(name, length, parsing) \
